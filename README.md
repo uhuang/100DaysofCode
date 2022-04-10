@@ -1,3 +1,3 @@
 # 100DaysofPython
 
-My solutions/projects for the 100 Days of Code course by Dr. Angela Yu on Udemy
+My solutions/projects for the [100 Days of Code](https://www.udemy.com/course/100-days-of-code) course by Dr. Angela Yu on Udemy
