@@ -50,7 +50,7 @@ try:
             pyautogui.alert("No passes to print. This script will now close.")
             sys.exit()
 
-    # Start Chrome
+    # Start browser
     subprocess.Popen(f"{browserLocation}{browserSelect}.exe")
     pyautogui.sleep(1)
 
