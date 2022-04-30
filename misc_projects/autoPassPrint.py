@@ -12,7 +12,7 @@ webLink = "[weblink here]"
 
 try: 
     startup = pyautogui.confirm(
-        text="Hi there.\nThis script will open a browser and try to auto-print guest passes.\nSome input will be needed right after this message and the first time the print page comes up.\nA pop up will appear when this has finished running.\nPlease click OK to continue or Cancel to exit.", 
+        text="Hi there.\nThis script will open a browser and try to auto-print guest passes.\nSome input will be needed right after this message and the first time the print page comes up.\nA pop up will appear when this has finished running. Do not use the mouse/keyboard while this script runs.\nPlease click OK to continue or Cancel to exit.", 
         title = "Info", 
         buttons = ["OK", "Cancel"]
         )
