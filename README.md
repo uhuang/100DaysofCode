@@ -9,5 +9,6 @@ Resources used so far in my learning process:
 * [Programming for Everybody (Getting Started with Python)](https://www.coursera.org/learn/python) on Coursera by Prof. Charles Severance<sup>1</sup>
 * [Python Data Structures](https://www.coursera.org/learn/python-data)<sup>1</sup>
 * [Using Python to Access Web Data](https://www.coursera.org/learn/python-network-data)<sup>1</sup>
+* A ton of StackExchange and Google
 
 <sup>1</sup> Part of the [Python for Everybody](https://www.coursera.org/specializations/python) track which I am still working through
