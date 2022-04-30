@@ -1,57 +1,68 @@
-import pyautogui
+"""This script attempts to automate the procedure to print guest passes for public computing.
+It uses screenshots to locate and click the appropriate buttons/tabs.
+When naming screenshots, add the browser name in lowercase to:
+PatronBox, CreateVisitor, CreateButton, PrintVisitorLink
+This script assumes screenshots are saved as .png. Adjust accordingly if otherwise.
+Required: Python 3.2 or higher, pyautogui (can be installed via pip)
+"""
+
 import subprocess
 import sys
+import pyautogui
 
-contactPerson = "[contact info here]"
-browserLocation = "[browser directory here]"
-browserSelect = "[browser here (lowercase)]"
-screenshotFolder = "[screenshot folder here]"
-webLink = "[weblink here]"
+CONTACT_PERSON = "[contact info here]"
+BROWSER_LOCATION = "[browser directory here]"
+BROWSER_SELECT = "[browser here (lowercase)]"
+SCREENSHOT_FOLDER = "[screenshot folder here]"
+SITE_LINK = "[weblink here]"
 
-# Name screenshots to [browserSelect]PatronBox, [browser]CreateVisitor, [browser]CreateButton, [browser]PrintVisitorLink
-
-try: 
+try:
     startup = pyautogui.confirm(
-        text="Hi there.\nThis script will open a browser and try to auto-print guest passes.\nSome input will be needed right after this message and the first time the print page comes up.\nA pop up will appear when this has finished running. Do not use the mouse/keyboard while this script runs.\nPlease click OK to continue or Cancel to exit.", 
-        title = "Info", 
+        text="""Hi there.
+        This script will open a browser and try to auto-print guest passes.
+        Some input will be needed right after this message and the first time the print page comes up.
+        A pop up will appear when this has finished running.
+        DO NOT use the mouse/keyboard while this script runs.
+        Please click OK to continue or Cancel to exit.""",
+        title = "Info",
         buttons = ["OK", "Cancel"]
         )
     if startup == "Cancel":
         exit()
-    
-    status = True
+    STATUS = True
     # Request number of passes to print
-    while status is True:
+    while STATUS is True:
         try:
-            numPasses = int(
+            NUM_PASSES = int(
                 pyautogui.prompt(
-                    text="Please enter number of passes to print", 
-                    title="Number of passes to print", 
+                    text="Please enter number of passes to print",
+                    title="Number of passes to print",
                     default="15"
                     )
                 )
-            if numPasses == 0:
-                pyautogui.alert("No passes to print. This script will now close.")
-                status = False
+            if NUM_PASSES == 0:
+                pyautogui.alert("No passes to print. Exiting.")
+                STATUS = False
                 sys.exit()
-            elif numPasses < 0:
-                pyautogui.alert("Can't print a negative number of items. This script will now close.")
-                status = False
+            elif NUM_PASSES < 0:
+                pyautogui.alert("Can't print a negative number of items. Exiting.")
+                STATUS = False
                 sys.exit()
-            elif numPasses >= 20:
-                pyautogui.alert(f"You have requested a large number of passes to print ({numPasses}). Please try entering a smaller number (less than 20).")
+            elif NUM_PASSES >= 20:
+                pyautogui.alert(f"You have requested a large number of passes ({NUM_PASSES}).\
+                    \nPlease try entering a smaller number (less than 20).")
                 continue
-            elif numPasses >= 1:
-                status = False
+            elif NUM_PASSES >= 1:
+                STATUS = False
                 break
         except ValueError:
             pyautogui.alert("Please enter a valid number")
         except TypeError:
-            pyautogui.alert("No passes to print. This script will now close.")
+            pyautogui.alert("No passes to print. Exiting.")
             sys.exit()
 
     # Start browser
-    subprocess.Popen(f"{browserLocation}{browserSelect}.exe")
+    subprocess.Popen(f"{BROWSER_LOCATION}{BROWSER_SELECT}.exe")
     pyautogui.sleep(1)
 
     # Maximize the browser
@@ -60,49 +71,50 @@ try:
     pyautogui.sleep(1)
 
     # Type URL
-    pyautogui.write(f"{webLink}", 0.001)
+    pyautogui.write(f"{SITE_LINK}", 0.001)
     pyautogui.press("enter")
 
     # Wait for page to load
     pyautogui.sleep(1)
-    
     # TODO: Check that there's no login page
     # TODO: If there's a login page, wait for user to log in
 
     # Navigate to the Create Visitor page
     try:
-        location = pyautogui.locateOnScreen(f"{screenshotFolder}{browserSelect}PatronBox.png")
+        location = pyautogui.locateOnScreen(f"{SCREENSHOT_FOLDER}{BROWSER_SELECT}PatronBox.png")
         pyautogui.moveTo(location)
         pyautogui.click(location)
         pyautogui.sleep(1)
         createVisitor = pyautogui.locateOnScreen(
-            f"{screenshotFolder}{browserSelect}CreateVisitor.png"
+            f"{SCREENSHOT_FOLDER}{BROWSER_SELECT}CreateVisitor.png"
         )
         pyautogui.moveTo(createVisitor)
         pyautogui.click(createVisitor)
         pyautogui.sleep(1)
     except pyautogui.ImageNotFoundException:
         pyautogui.alert(
-            f"An error has occurred. Please print guest passes manually and contact {contactPerson} about this message. (Error in page navigation)"
+            f"""An error has occurred. Please print passes manually and contact {CONTACT_PERSON}.
+            (Error in page navigation)"""
             )
-        
+        sys.exit()
     # Create a visitor
     try:
-        createButton = pyautogui.locateOnScreen(f"{screenshotFolder}{browserSelect}CreateButton.png")
+        createButton = pyautogui.locateOnScreen(f"{SCREENSHOT_FOLDER}{BROWSER_SELECT}CreateButton.png")
         pyautogui.moveTo(createButton)
         pyautogui.click(createButton)
         pyautogui.sleep(1)
 
         # Prepare to print the first visitor slip
         printVisitor = pyautogui.locateOnScreen(
-            f"{screenshotFolder}{browserSelect}PrintVisitorLink.png"
+            f"{SCREENSHOT_FOLDER}{BROWSER_SELECT}PrintVisitorLink.png"
         )
         pyautogui.moveTo(printVisitor)
         pyautogui.click(printVisitor)
         pyautogui.sleep(1)
 
         pyautogui.alert(
-            "IMPORTANT: Please ensure the receipt printer is selected before returning to this window and pressing OK."
+            """IMPORTANT:
+            Please ensure the receipt printer is selected before returning to this window and pressing OK."""
         )
         # TODO: Check that the receipt printer is selected
         # TODO: Select the receipt printer automatically if it isn't the active printer
@@ -112,17 +124,17 @@ try:
         pyautogui.sleep(1)
 
         # Print additional visitor passes (indicated from above input)
-        count = 1
-        while count < numPasses:
+        COUNT = 1
+        while COUNT < NUM_PASSES:
             createButton = pyautogui.locateOnScreen(
-                f"{screenshotFolder}{browserSelect}CreateButton.png"
+                f"{SCREENSHOT_FOLDER}{BROWSER_SELECT}CreateButton.png"
             )
             pyautogui.moveTo(createButton)
             pyautogui.click(createButton)
             pyautogui.sleep(1.2)
 
             printVisitor = pyautogui.locateOnScreen(
-                f"{screenshotFolder}{browserSelect}PrintVisitorLink.png"
+                f"{SCREENSHOT_FOLDER}{BROWSER_SELECT}PrintVisitorLink.png"
             )
             pyautogui.moveTo(printVisitor)
             pyautogui.click(printVisitor)
@@ -130,13 +142,15 @@ try:
 
             pyautogui.press("enter")
             pyautogui.sleep(1.2)
-            count += 1
+            COUNT += 1
     except pyautogui.ImageNotFoundException:
         pyautogui.alert(
-            f"An error has occurred. Please print guest passes manually and contact {contactPerson} about this message. (Error in print loop)"
+            f"An error has occurred. Please print passes manually and contact {CONTACT_PERSON}. \
+                \n(Error in print loop)"
         )
-    pyautogui.alert(f"Finished printing {numPasses} passes!")
+    pyautogui.alert(f"Finished printing {NUM_PASSES} passes!")
     sys.exit()
 except pyautogui.FailSafeException:
-    pyautogui.alert("Script stopped. Fail-safe triggered by mouse moving to a corner of the screen.")
+    pyautogui.alert("Script stopped. Failsafe activated by mouse moving to a corner of the screen.")
     sys.exit()
+    
