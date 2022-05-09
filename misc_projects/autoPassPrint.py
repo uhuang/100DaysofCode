@@ -13,11 +13,11 @@ import pyautogui
 from tkinter import *
 from tkinter import ttk
 
-CONTACT_PERSON = "Una (huang@portlib.org)"
-BROWSER_LOCATION = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\"
-BROWSER_SELECT = "chrome"
-SCREENSHOT_FOLDER = "C:\\Users\\PC\\Desktop\\Minor Coding Projects\\screenshots\\"
-SITE_LINK = "https://print.portlandlibrary.com/SignUp/"
+CONTACT_PERSON = "CONTACT"
+BROWSER_LOCATION = "PATH TO BROWSER"
+BROWSER_SELECT = "BROWSER"
+SCREENSHOT_FOLDER = "PATH TO SCREENSHOT FOLDER"
+SITE_LINK = "LINK"
 
 try:
     startup = pyautogui.confirm(
