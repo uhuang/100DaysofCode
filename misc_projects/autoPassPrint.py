@@ -8,16 +8,17 @@ Required: Python 3.2 or higher, pyautogui (can be installed via pip)
 
 import subprocess
 import sys
-import tkinter
+import unittest
 import pyautogui
+import tkinter
 from tkinter import *
 from tkinter import ttk
 
-CONTACT_PERSON = "Una (huang@portlib.org)"
-BROWSER_LOCATION = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\"
-BROWSER_SELECT = "chrome"
-SCREENSHOT_FOLDER = "C:\\Users\\PC\\Desktop\\Minor Coding Projects\\screenshots\\"
-SITE_LINK = "https://print.portlandlibrary.com/SignUp/"
+CONTACT_PERSON = "CONTACT INFO"
+BROWSER_LOCATION = "PATH TO BROWSER"
+BROWSER_SELECT = "BROWSER"
+SCREENSHOT_FOLDER = "PATH TO SCREENSHOTS"
+SITE_LINK = "LINK"
 
 try:
     startup = pyautogui.confirm(
@@ -48,10 +49,10 @@ try:
             elif NUM_PASSES < 0:
                 pyautogui.alert("Can't print a negative number of items. Exiting.")
                 sys.exit()
-            elif NUM_PASSES >= 20:
+            elif NUM_PASSES > 20:
                 pyautogui.alert(
                     f"You have requested a large number of passes ({NUM_PASSES}).\
-                    \nPlease try entering a smaller number (less than 20)."
+                    \nPlease try entering a smaller number (20 or less)."
                 )
                 continue
             elif NUM_PASSES >= 1:
